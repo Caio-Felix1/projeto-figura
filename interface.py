@@ -615,37 +615,40 @@ class Aplicacao:
     def desenhar_labels_pontos(self):
 
         """
-        Desenha os nomes P1, P2, P3 e P4.
+        Desenha os nomes P1, P2, P3 e P4 próximos
+        aos respectivos pontos.
 
-        Cada ponto possui um deslocamento
-        diferente para evitar que os nomes
-        fiquem sobrepostos quando os pontos
-        estiverem muito próximos.
+        Quando os pontos estão sobrepostos, os nomes
+        são distribuídos ao redor do pixel para evitar
+        que os textos fiquem uns sobre os outros.
         """
 
         deslocamentos = [
-            (10, -15),
-            (10, 0),
-            (10, 15),
-            (10, 30)
+            (8, -8),     # P1 - superior direito
+            (-8, -8),    # P2 - superior esquerdo
+            (8, 8),      # P3 - inferior direito
+            (-8, 8)      # P4 - inferior esquerdo
         ]
 
-        for i, ponto in enumerate(
-            self.pontos_atuais
-        ):
+        anchors = [
+            "sw",        # P1
+            "se",        # P2
+            "nw",        # P3
+            "ne"         # P4
+        ]
+
+        for i, ponto in enumerate(self.pontos_atuais):
 
             x, y = ponto
 
-            deslocamento_x, deslocamento_y = (
-                deslocamentos[i]
-            )
+            deslocamento_x, deslocamento_y = deslocamentos[i]
 
             self.canvas.create_text(
                 x + deslocamento_x,
                 y + deslocamento_y,
                 text=f"P{i + 1}",
                 fill="black",
-                anchor="w"
+                anchor=anchors[i]
             )
 
     # ==============================
